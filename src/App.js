@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Switch,Route } from 'react-router';
+import styled from 'styled-components'
+import Cart from './components/Cart';
+import Error404 from './components/Error404';
+import Inicio from './components/Inicio';
+import Navbar from './components/Navbar';
+import Tienda from './components/Tienda';
+import Footer from './components/Footer/Footer';
+import ProductDetailContainer from './components/Products/ProductDetailContainer';
+import { BrowserRouter } from 'react-router-dom';
+import CartProvider from './context/cartContext';
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <CartProvider>
+
+      <BrowserRouter>
+        <Contenedor>
+          <Navbar/>
+            <Switch>
+                <Route exact path="/"  component={Inicio} />
+                <Route path="/tienda" component={Tienda} />
+                <Route path="/cart" component={Cart} />
+
+                <Route exact path="/detalle/:id">
+                  <ProductDetailContainer/>
+                </Route>
+                <Route path="/" component={Error404} />
+            </Switch>
+          <Footer/>
+        </Contenedor>
+      </BrowserRouter>
+      
+    </CartProvider>
+  )
 }
 
-export default App;
+const Contenedor = styled.div`
+   
+    
+  
+  
+    
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(129, 129, 129, 0.1);
+`;
+
+export default App
