@@ -35,12 +35,12 @@ const Category = () => {
     }, []);
     return (
         <div className="container mt-4 mb-3">
-            <div className="row g-2">
-             {loading ? <Loader text={categoria} /> :
-            
-                filtro.map((categorias) =>  <CategoryItems key={categorias.id} producto={categorias} />
-                )
-            }
+            <div className="row g-3">
+                {loading ? <Loader text={categoria} /> :
+
+                    filtro.map((categorias) => <CategoryItems key={categorias.id} producto={categorias} />
+                    )
+                }
             </div>
         </div>
     );

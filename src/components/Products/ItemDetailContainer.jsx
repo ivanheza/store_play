@@ -5,7 +5,7 @@ import ItemDetail from "./ItemDetail";
 
 const ItemDetailContainer = () => {
 	const { id } = useParams();
-	
+
 	const [loader, setLoader] = useState("d-none")
 
 
@@ -38,10 +38,10 @@ const ItemDetailContainer = () => {
 			{filtro.map((detail) => {
 				return (
 					<div className="container row d-flex justify-content-center">
-					<div className={`d-flex justify-content-center align-items-center  py-2 ${loader}`}>
-						<strong>Loading...</strong>
-						<div className="spinner-border ms-5" role="status" aria-hidden="false"></div>
-					</div>
+						<div className={`d-flex justify-content-center align-items-center  py-2 ${loader}`}>
+							<strong>Loading...</strong>
+							<div className="spinner-border ms-5" role="status" aria-hidden="false"></div>
+						</div>
 						<ItemDetail key={detail.id} detail={detail} />
 					</div>
 				);

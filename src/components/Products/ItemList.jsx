@@ -5,7 +5,7 @@ const ItemList = ({ producto }) => {
 
   const { nombre, precio, image, categoria,id } = producto
   return (
-    <div classNameName="col">
+  <div className="col">
       <div className="card h-100 rounded-3 shadow-sm">
         <img src={image} class="card-img-top" alt="..." />
         <div className="card-body">

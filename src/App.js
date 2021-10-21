@@ -32,7 +32,7 @@ const App = () => {
                 </Route>
                 <Route path="/cart" component={Cart} />
 
-                {/* <Route path="/" component={Error404} /> */}
+                <Route path="/" component={Error404} />
             </Switch>
           <Footer/>
         </Contenedor>
