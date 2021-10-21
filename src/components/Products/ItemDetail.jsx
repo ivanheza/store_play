@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useCartContext } from '../../context/cartContext'
 import Loader from '../Stateless/Loader'
-import ProductCounter from './ProductCounter'
+import ProductCounter from './ItemCounter'
 
-const ProductDetail = ({ detail }) => {
-    //Props ProductDetail
+const ItemDetail = ({ detail }) => {
+    //Props ItemDetail
     const { image, nombre, precio, categoria,descripcion,stock,id } = detail
     //CartContext
     const {addToCart,block} = useCartContext()
@@ -38,14 +38,6 @@ const ProductDetail = ({ detail }) => {
 
                 </div>
                 <div className="col-lg-6">
-                    <div className="text-end">
-                        <span
-                            style={{ fontSize: 8 }}
-                            className=" col-4 badge bg-danger mt-2"
-                        >
-                            Stock:{stock}
-                        </span>
-                    </div>
                     <h1 className="display-5 fw-bold lh-1 mb-3">{nombre}</h1>
                     <p className="lead">{descripcion}</p>
                     <div>
@@ -63,4 +55,4 @@ const ProductDetail = ({ detail }) => {
     )
 }
 
-export default ProductDetail
+export default ItemDetail

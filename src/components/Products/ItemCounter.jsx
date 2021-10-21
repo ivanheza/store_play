@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const ProductCounter = ({onAdd,id,block}) => {
+const ItemCounter = ({onAdd,id,block}) => {
     //Contador
     const [contador, setContador] = useState(1);
     const clickAgregar = () => setContador(contador + 1);
@@ -13,7 +13,7 @@ const ProductCounter = ({onAdd,id,block}) => {
     //Funcion Boton addProduct
     const addProduct = ()=>{
         setFinalizar("")
-        setBtn("Añadido")
+        setBtn("Añadir")
         setContador(1)
         onAdd(contador,id)
     }
@@ -63,4 +63,4 @@ const ProductCounter = ({onAdd,id,block}) => {
     )
 }
 
-export default ProductCounter
+export default ItemCounter

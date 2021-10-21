@@ -5,11 +5,12 @@ import Cart from './components/Cart';
 import Error404 from './components/Error404';
 import Inicio from './components/Inicio';
 import Navbar from './components/Navbar';
-import Tienda from './components/Tienda';
 import Footer from './components/Footer/Footer';
-import ProductDetailContainer from './components/Products/ProductDetailContainer';
 import { BrowserRouter } from 'react-router-dom';
 import CartProvider from './context/cartContext';
+import ItemListContainer from './components/ItemListContainer';
+import ItemDetailContainer from './components/Products/ItemDetailContainer';
+import Category from './components/Products/Category';
 
 
 const App = () => {
@@ -20,14 +21,18 @@ const App = () => {
         <Contenedor>
           <Navbar/>
             <Switch>
-                <Route exact path="/"  component={Inicio} />
-                <Route path="/tienda" component={Tienda} />
+                <Route exact path="/" component={ItemListContainer} />
+                <Route path="/home"  component={Inicio} />
+                <Route exact path="/detalle/:id">
+                  <ItemDetailContainer/>
+
+                </Route>
+                <Route exact path="/categoria/:categoria">
+                  <Category/>
+                </Route>
                 <Route path="/cart" component={Cart} />
 
-                <Route exact path="/detalle/:id">
-                  <ProductDetailContainer/>
-                </Route>
-                <Route path="/" component={Error404} />
+                {/* <Route path="/" component={Error404} /> */}
             </Switch>
           <Footer/>
         </Contenedor>

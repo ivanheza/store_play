@@ -6,41 +6,21 @@ export const useCartContext = () => useContext(CartContext);
 function CartProvider({ children }) {
 	const cartStorage = 
   localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
-	const cartTotal = 
-  parseInt(localStorage.getItem("cartTotal")) ? parseInt(localStorage.getItem("cartTotal")) : 0;
+
   //console.log(cartStorage)
 
   const [cartList, setCartList] = useState(cartStorage);
-	const [qty,setQty] = useState(0)
-	const [total,setTotal] = useState(cartTotal)
-  // console.log("Cantidad",qty)
-  // console.log("total",total)
-  // console.log("CartList",cartList)
+
 
   //Funcion AddToCart
 	const addToCart = (detail, id) => {
-		
+		/////// Se define la variable tomando la cantidad del counter
 		let cantidad = detail.cantidad;
-		//console.log(cantidad);
-		if (cartList.length === 0) {
-			setCartList([...cartList, detail]);
-			setQty(1)
-			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),1)
-			setTotal(total)
-
-		} else if (cartList.some((product) => detail.product.id === product.product.id)) {
-      
-			const qtyCart = cartList.map((item,)=>{
-				return item.product.id === detail.product.id ? item.cantidad += cantidad : item.cantidad
-			})
-			setQty(qtyCart)
-			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),0)
-			setTotal(total)
-			setCartList([...cartList])
-		} else {
-			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),1)
-			setTotal(total)
-			setCartList([...cartList, detail])};
+		/////// Buscamos si el producto ya está en carrito y le sumamos la cantidad
+		 if (cartList.some((product) => detail.product.id === product.product.id)) {
+      	let qtyCart = cartList.map((item,)=> item.product.id === detail.product.id ? item.cantidad += cantidad : item.cantidad)	
+				setCartList([...cartList])
+		} else setCartList([...cartList, detail]);
 	};
 
   //Borrar Por ID
@@ -55,16 +35,13 @@ function CartProvider({ children }) {
         //console.log("pruebaVaciar")
         
         setCartList([])
-				setTotal(0)
     }  
 
 		//LOCAL STORAGE
     useEffect(() => {
       localStorage.setItem("cart",JSON.stringify(cartList))
     }, [cartList])
-    useEffect(() => {
-			localStorage.setItem("cartTotal", total)
-    }, [total])
+   
 
 	return (
 		<CartContext.Provider
@@ -72,9 +49,7 @@ function CartProvider({ children }) {
 				addToCart,
         cartList,
         borrarProduct,
-        vaciarCart,
-				total,
-				qty
+        vaciarCart
 			}}
 		>
 			{children}

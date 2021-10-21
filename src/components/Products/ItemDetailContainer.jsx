@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import ProductDetail from "./ProductDetail";
+import ItemDetail from "./ItemDetail";
 
-const ProductDetailContainer = () => {
+const ItemDetailContainer = () => {
 	const { id } = useParams();
-	//console.log(id)
+	
 	const [loader, setLoader] = useState("d-none")
 
 
@@ -42,7 +42,7 @@ const ProductDetailContainer = () => {
 						<strong>Loading...</strong>
 						<div className="spinner-border ms-5" role="status" aria-hidden="false"></div>
 					</div>
-						<ProductDetail key={detail.id} detail={detail} />
+						<ItemDetail key={detail.id} detail={detail} />
 					</div>
 				);
 			})}
@@ -50,4 +50,4 @@ const ProductDetailContainer = () => {
 	);
 };
 
-export default ProductDetailContainer;
+export default ItemDetailContainer;
