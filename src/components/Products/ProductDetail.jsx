@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { useCartContext } from '../../context/cartContext'
+import Loader from '../Stateless/Loader'
 import ProductCounter from './ProductCounter'
 
 const ProductDetail = ({ detail }) => {
@@ -8,26 +8,33 @@ const ProductDetail = ({ detail }) => {
     const { image, nombre, precio, categoria,descripcion,stock,id } = detail
     //CartContext
     const {addToCart,block} = useCartContext()
-    const total = 0
     const onAdd = (contador,id) => {
         //console.log("contador:",contador, "id",id)
-
         addToCart({
             product: detail,
-            cantidad: contador,
-            
-        },id,total)
-        
+            cantidad: contador,     
+        },id)
     }
+    const [loading,setLoading]=useState(true)
+    //console.log(loading)
+    useEffect(() => {
+       
+      return  setTimeout(() => {
+            setLoading(false)
+        }, 800);
+    },)
     
 
 
     return (
         <div className="container col-xxl-10 px-4 py-5">
+            {loading ? <Loader text={detail.nombre}/> :
+            
+            
+            <div className="row flex-lg-row align-items-center g-2">
             <h1>{categoria}</h1>
-            <div className="row flex-lg-row align-items-center g-5 py-5">
                 <div className="col-10 col-sm-8 col-lg-6 ">
-                    <img src={image} className="d-block mx-lg-auto img-fluid"  width="700" height="500" loading="lazy" />
+                    <img src={image} alt={detail.nombre} className="d-block mx-lg-auto img-fluid"  width="700" height="500" loading="lazy" />
 
                 </div>
                 <div className="col-lg-6">
@@ -51,6 +58,7 @@ const ProductDetail = ({ detail }) => {
                     
                 </div>
             </div>
+            }
         </div>
     )
 }

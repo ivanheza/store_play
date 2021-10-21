@@ -4,13 +4,18 @@ const CartContext = createContext([]);
 export const useCartContext = () => useContext(CartContext);
 
 function CartProvider({ children }) {
-	/* const cartStorage = 
-  localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : []; */
-
+	const cartStorage = 
+  localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+	const cartTotal = 
+  parseInt(localStorage.getItem("cartTotal")) ? parseInt(localStorage.getItem("cartTotal")) : 0;
   //console.log(cartStorage)
-  const [cartList, setCartList] = useState([]);
 
-  
+  const [cartList, setCartList] = useState(cartStorage);
+	const [qty,setQty] = useState(0)
+	const [total,setTotal] = useState(cartTotal)
+  // console.log("Cantidad",qty)
+  // console.log("total",total)
+  // console.log("CartList",cartList)
 
   //Funcion AddToCart
 	const addToCart = (detail, id) => {
@@ -19,25 +24,23 @@ function CartProvider({ children }) {
 		//console.log(cantidad);
 		if (cartList.length === 0) {
 			setCartList([...cartList, detail]);
-		} else if (
-			cartList.some((product) => detail.product.id === product.product.id)
-		) {
-      
-			cartList.map((i, index) => {
-				if (i.product.id === detail.product.id) {
-					let cantProd = i.cantidad++;
-					i.cantidad = cantidad + cantProd;
-          /* let subTotal = i.product.precio * i.cantidad
-					console.log( subTotal); */
-          if (detail.product.stock === i.cantidad) {
-            alert("no hay mas stock")
-          }return
-        
-				}
-			});
+			setQty(1)
+			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),1)
+			setTotal(total)
 
-			
-		} else setCartList([...cartList, detail]);
+		} else if (cartList.some((product) => detail.product.id === product.product.id)) {
+      
+			const qtyCart = cartList.map((item,)=>{
+				return item.product.id === detail.product.id ? item.cantidad += cantidad : item.cantidad
+			})
+			setQty(qtyCart)
+			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),0)
+			setTotal(total)
+			setCartList([...cartList])
+		} else {
+			const total =  cartList.reduce((sum,value)=> (typeof value.cantidad == "number" ? sum+value.cantidad : sum),1)
+			setTotal(total)
+			setCartList([...cartList, detail])};
 	};
 
   //Borrar Por ID
@@ -52,11 +55,16 @@ function CartProvider({ children }) {
         //console.log("pruebaVaciar")
         
         setCartList([])
+				setTotal(0)
     }  
 
-   /*  useEffect(() => {
+		//LOCAL STORAGE
+    useEffect(() => {
       localStorage.setItem("cart",JSON.stringify(cartList))
-    }, [cartList]) */
+    }, [cartList])
+    useEffect(() => {
+			localStorage.setItem("cartTotal", total)
+    }, [total])
 
 	return (
 		<CartContext.Provider
@@ -64,7 +72,9 @@ function CartProvider({ children }) {
 				addToCart,
         cartList,
         borrarProduct,
-        vaciarCart
+        vaciarCart,
+				total,
+				qty
 			}}
 		>
 			{children}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { useCartContext } from '../context/cartContext'
 import { AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
