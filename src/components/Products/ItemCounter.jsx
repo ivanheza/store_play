@@ -56,7 +56,7 @@ const ItemCounter = ({onAdd,id,block}) => {
                 >
                     Finalizar Compra
                 </Link>
-                <Link to="/tienda" className={`col-6 p-1 m-0 btn btn-secondary btn-sm ${finalizar}`}>Volver a Tienda</Link>
+                <Link to="/" className={`col-6 p-1 m-0 btn btn-secondary btn-sm ${finalizar}`}>Volver a Tienda</Link>
             </div>
 			
 		</div>
