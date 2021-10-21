@@ -5,7 +5,7 @@ import ProductCounter from './ItemCounter'
 
 const ItemDetail = ({ detail }) => {
     //Props ItemDetail
-    const { image, nombre, precio, categoria, descripcion, stock, id } = detail
+    const { image, nombre, precio, categoria, descripcion, id } = detail
     //CartContext
     const { addToCart, block } = useCartContext()
     const onAdd = (contador, id) => {

@@ -8,7 +8,6 @@ const Category = () => {
     const [loading, setLoading] = useState(true)
 
     const { categoria } = useParams()
-    console.log(categoria)
     const [productos, setProductos] = useState([]);
     const getProducts = async () => {
 
