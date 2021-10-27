@@ -18,7 +18,7 @@ function CartProvider({ children }) {
     let cantidad = detail.cantidad;
     /////// Buscamos si el producto ya está en carrito y le sumamos la cantidad
     if (cartList.some((product) => detail.product.id === product.product.id)) {
-      let qtyCart = cartList.map((item,) => item.product.id === detail.product.id ? item.cantidad += cantidad : item.cantidad)
+      cartList.map((item,) => item.product.id === detail.product.id ? item.cantidad += cantidad : item.cantidad)
       setCartList([...cartList])
     } else setCartList([...cartList, detail]);
   };

@@ -30,7 +30,7 @@ const ItemDetail = ({ detail }) => {
         <div className="container col-xxl-10 px-4 py-5">
             {loading ? <Loader text={detail.nombre} /> :
                 <div className="row flex-lg-row align-items-center g-2">
-                    <h1>{categoria}</h1>
+                    <h1>{categoria.toUpperCase()}</h1>
                     <div className="col-10 col-sm-8 col-lg-6 ">
                         <img src={image} alt={detail.nombre} className="d-block mx-lg-auto img-fluid" width="700" height="500" loading="lazy" />
                     </div>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const ItemList = ({ producto }) => {
 
   const { nombre, precio, image, categoria,id } = producto
+  //console.log(id)
   return (
   <div className="col">
       <div className="card h-100 rounded-3 shadow-sm">

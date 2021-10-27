@@ -1,33 +1,33 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getFirestore } from '../services/getFireBase'
 import ItemList from './Products/ItemList'
 import Loader from './Stateless/Loader'
 
 const ItemListContainer = () => {
 	const [productos, setProductos] = useState([])
-
+	//console.log(productos)
 	const [loader, setLoader]=useState(true)
 
 	const getProducts = async () => {	
 			
 		try {
-			const res = await axios.get("http://demo0117039.mockable.io/productos")
-			//console.log(res.data);
+			//Firestore
+			const db =  getFirestore ();
+			const res = await db.collection("items").get()
+			 //traemos toda la coleccion
+			setProductos(res.docs.map((it) => ({id: it.id , ...it.data()} )) )
+			
 			setLoader(false)
-			//console.log(res.data)
-			setProductos(res.data)
+			
 		} catch (error) {
 			console.log(error);
 		}
 	}
 	let filtro = productos.map ((item) =>  item.categoria)
-	
+	//console.log(filtro)
 	useEffect(() => {
-		
 		getProducts()
-		
-
 	}, [])
 
 	return (

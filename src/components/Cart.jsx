@@ -8,15 +8,9 @@ const Cart = () => {
     const { cartList, borrarProduct, vaciarCart } = useCartContext()
 
     const [totalCart, setTotalCart] = useState(0);
-    const [subTotalCart, setSubTotalCart] = useState(0);
 
         //SubTotal
-const cartSubTotal = () => {
-    let cuentaSubTotal = cartList.reduce((acc, product) => {
-        return product.product.precio * product.cantidad
-    }, 0)
-    setSubTotalCart(cuentaSubTotal)
-}
+
         //Total Carrito
     const cartTotal = () => {
         let cuentaTotal = cartList.reduce((acc, product) => {
@@ -27,7 +21,6 @@ const cartSubTotal = () => {
     }
     useEffect(() => {
         cartTotal()
-        cartSubTotal()
     }, [cartList])
 
     return (
@@ -52,7 +45,7 @@ const cartSubTotal = () => {
                                             <p className="col-3 my-0">{p.product.nombre}</p>
                                             <small className="col-2 text-center">{p.product.precio}</small>
                                             <small className="col-1 text-center">Cant:{p.cantidad}</small>
-                                            <span className=" col-2 text-end ">$ {subTotalCart}</span>
+                                            <span className=" col-2 text-end ">$ {p.product.precio * p.cantidad}</span>
                                             <span className=" col-1 d-flex justify-content-center"><button onClick={() => borrarProduct(p.product.id)} className="btn btn-danger btn-sm ">X</button></span>
                                         </div>
                                     </li>

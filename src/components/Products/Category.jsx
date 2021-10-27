@@ -1,33 +1,31 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import { getFirestore } from '../../services/getFireBase'
 import Loader from '../Stateless/Loader'
 import CategoryItems from './CategoryItems'
 
 const Category = () => {
-    const [loading, setLoading] = useState(true)
-
+    const [loader, setLoader] = useState(true)
     const { categoria } = useParams()
-    const [productos, setProductos] = useState([]);
-    const getProducts = async () => {
+    const [productosCatego, setProductosCatego] = useState([]);
+    //console.log(productosCatego)
 
-        try {
-            const res = await axios.get(
-                "http://demo0117039.mockable.io/productos"
-            );
-            setLoading(false)
-            //console.log(res.data);
-            setProductos(res.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    const filtro = productos.filter((producto) => {
-        if (producto.categoria == categoria) {
-            return producto;
-        }
-    });
-    //console.log(filtro)
+   const getProducts = async () => {	
+			
+		try {
+			//Firestore
+			const db =  getFirestore ();
+			const res = await db.collection("items").where("categoria","==",categoria).get()
+			 //traemos la coleccion por categoria
+			setProductosCatego(res.docs.map((it) => ({id: it.id , ...it.data()} )) )
+			
+			setLoader(false)
+			
+		} catch (error) {
+			console.log(error);
+		}
+	}
+  
 
     useEffect(() => {
         getProducts();
@@ -35,9 +33,9 @@ const Category = () => {
     return (
         <div className="container mt-4 mb-3">
             <div className="row g-3">
-                {loading ? <Loader text={categoria} /> :
+                {loader ? <Loader text={categoria} /> :
 
-                    filtro.map((categorias) => <CategoryItems key={categorias.id} producto={categorias} />
+                    productosCatego.map((categorias) => <CategoryItems key={categorias.id} producto={categorias} />
                     )
                 }
             </div>
