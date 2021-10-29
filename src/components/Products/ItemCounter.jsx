@@ -1,34 +1,45 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
 
-const ItemCounter = ({onAdd,id,block}) => {
-    //Contador
-    const [contador, setContador] = useState(1);
-    const clickAgregar = () => setContador(contador + 1);
-    const clickRestar = () => contador <=0 ? "" : setContador(contador - 1)
-    //Boton Finalizar Compra y Mensaje
-    const [btn, setBtn] = useState("Añadir al Carrito")
-    const [finalizar, setFinalizar] = useState("d-none")
+const ItemCounter = ({ onAdd, id, block, stock }) => {
+	//Contador
+	const [contador, setContador] = useState(1);
+	const [botonMas, setBotonMas] = useState(false);
+	const [botonMenos, setBotonMenos] = useState(false);
+	
+    const clickAgregar = () => {
+		if (contador < stock) {
+			setContador(contador + 1);
+		}
+		if (contador === stock) {
+			setBotonMas(true);
+		}
+	};
 
-    //Funcion Boton addProduct
-    const addProduct = ()=>{
-        setFinalizar("")
-        setBtn("Añadir")
-        setContador(1)
-        onAdd(contador,id)
-    }
-    
-    
+	const clickRestar = () => {
+		if (contador > 0) {
+			setContador(contador - 1);
+		}
+		if (contador === 0) {
+			setBotonMenos(true);
+		}
+		setBotonMenos(false);
+	};
+	//Boton y Mensaje
+	const [btn, setBtn] = useState("Añadir al Carrito");
 
+	//Funcion Boton addProduct
+	const addProduct = () => {
+		setBtn("Añadir +");
+		setContador(1);
+		onAdd(contador);
+	};
 
-    return (
-       <div className="row justify-content-center mb-2">
-			
+	return (
+		<div className="row justify-content-center mb-2">
 			<div className="col-12 d-flex justify-content-center my-1">
 				<button
 					className="col-2 btn btn-dark"
-					type="button"
-					disabled=""
+					disabled={botonMas}
 					onClick={() => clickAgregar()}
 				>
 					+
@@ -36,31 +47,23 @@ const ItemCounter = ({onAdd,id,block}) => {
 				<span className="col-2 text-center ">{contador}</span>
 				<button
 					className="col-2 btn btn-dark"
-					disabled=""
+					disabled={botonMenos}
 					onClick={() => clickRestar()}
 				>
 					-
 				</button>
 			</div>
 			<div className="col-12 text-center ">
-                <button
-                    onClick={() => addProduct()}
-                    className={`col-6 btn btn-primary mt-4 mx-2 ${block}`}
-                >
-                    {btn}
-                </button>
-                
-                <Link to="/cart"
+				<button
+					onClick={() => addProduct()}
+					className={`col-6 btn btn-primary mt-4 mx-2 ${block}`}
+				>
+					{btn}
+				</button>
 
-				className={`col-6 btn btn-danger my-2 mx-2 ${finalizar} `}
-                >
-                    Finalizar Compra
-                </Link>
-                <Link to="/" className={`col-6 p-1 m-0 btn btn-secondary btn-sm ${finalizar}`}>Volver a Tienda</Link>
-            </div>
-			
+			</div>
 		</div>
-    )
-}
+	);
+};
 
-export default ItemCounter
+export default ItemCounter;
