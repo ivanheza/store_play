@@ -48,6 +48,7 @@ const ItemDetail = ({ detail }) => {
                         <div>
                             <h2>Precio: <span className="mx-3">$ {precio}</span></h2>
                         </div>
+                        <button> next </button>
                         {!inCart(id) ?
                             <div>
                                 <ItemCounter id={id} onAdd={onAdd} stock={detail.stock} />

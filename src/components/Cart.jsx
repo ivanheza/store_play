@@ -11,41 +11,69 @@ import ModalBase from './Stateless/ModalBase';
 const Cart = () => {
     const { cartList, borrarProduct, vaciarCart, cuentaOrden, cliente } = useCartContext()
     
-    const [orden, setOrden] = useState({})
+    
     const [modal, SetModal] = useState(false)
     const [btn, showBtn] = useState(true)
    //console.log(orden)
 
 
-    const ordenCompra = () => {
+    const ordenCompra = (e) => {
+        e.preventDefault()
 
-
-        setOrden({
-            date: firebase.firestore.Timestamp.fromDate(new Date()),
-            cliente: {
+        let order = {}
+            order.date= firebase.firestore.Timestamp.fromDate(new Date());
+            order.cliente= {
                 name: cliente.nombre,
                 phone: cliente.telefono,
                 email: cliente.correo
-            },
-            productos: cartList.map((p) => {
+            };
+            order.total = cuentaOrden();
+            order.productos= cartList.map((p) => {
                 const id = p.id
                 const producto = p.nombre
+                const cantidad = p.cantidad
                 const precio = p.precio * p.cantidad
-
-                return { id, producto, precio }
-
-            }),
-            total: cuentaOrden()
-        })
+                return { id, producto, precio,cantidad }
+            })
+        
 
         const dbQuery = getFirestore();
         //genero constante de orden y creamos una nueva coleccion en fire
         const orderQuery = dbQuery.collection("orders")
-        orderQuery.add(orden)
-            .then(res => console.log(res))
-            .catch(err => console.log("Error", err))
+        orderQuery.add(order)
+            .then(res => console.log("el Id de tu compra es"+res.id))
+            .catch(err => console.log("Ooops hubo un error", err))
+            .finally(()=>{
+                vaciarCart()
+                showBtn(true)
+                alert("tu compra se realizo con exito")
+            })
+            
+            
+            /////// Actualizar
+            
+            const updateProducts = dbQuery.collection("items").where(
+                firebase.firestore.FieldPath.documentId(),"in", cartList.map((p)=>p.id)
+                )
+                const batch = dbQuery.batch();
+                
+                updateProducts.get()
+                .then(coll => {
+                    coll.docs.forEach( docSnap =>{
+                        batch.update(docSnap.ref,{
+                            stock: docSnap.data().stock - cartList.find( p => p.id === docSnap.id).cantidad
+                        })
+                    })
+                    batch.commit().then(resCommit => {
+                        console.log(resCommit)
+                    })
+                })
+                
+                console.log(order)
+
     }
 
+    ///////Boton     
     const comprar = ()=>{
         //console.log("prueba enboton modal")
         showBtn(false)

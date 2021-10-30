@@ -6,6 +6,7 @@ const ItemCounter = ({ onAdd, id, block, stock }) => {
 	const [botonMas, setBotonMas] = useState(false);
 	const [botonMenos, setBotonMenos] = useState(false);
 	
+	
     const clickAgregar = () => {
 		if (contador < stock) {
 			setContador(contador + 1);
@@ -54,12 +55,22 @@ const ItemCounter = ({ onAdd, id, block, stock }) => {
 				</button>
 			</div>
 			<div className="col-12 text-center ">
+				{stock === 0 ? 
+				<button
+					onClick={() => addProduct()} disabled
+					className={`col-6 btn btn-primary mt-4 mx-2 ${block}`}
+				>
+					No Hay Stock Actualmente
+				</button>
+				:
 				<button
 					onClick={() => addProduct()}
 					className={`col-6 btn btn-primary mt-4 mx-2 ${block}`}
 				>
 					{btn}
 				</button>
+
+				}
 
 			</div>
 		</div>
