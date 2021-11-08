@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react/cjs/react.development'
 import { useCartContext } from '../../context/cartContext'
+import Swal from "sweetalert2";
+
 
 const ModalBase = ({hide}) => {
     
@@ -9,6 +11,8 @@ const ModalBase = ({hide}) => {
 //console.log(nombre)
     const [tel,setTel] = useState("")
     const [correo,setCorreo] = useState("")
+    const [correoVal,setCorreoVal] = useState("")
+    
     const onChange = (e)=>{
         e.preventDefault()
         if (e.target.name === "nombre") {
@@ -17,6 +21,8 @@ const ModalBase = ({hide}) => {
             setTel(e.target.value)
         }else if (e.target.name === "correo") {
             setCorreo(e.target.value)
+        }else if (e.target.name === "correoVal") {
+            setCorreoVal(e.target.value)
         }
         
     }
@@ -24,9 +30,25 @@ const ModalBase = ({hide}) => {
     const onSubmit = (e)=>{
         e.preventDefault()
         if (nombre === "" || tel === "" || correo === "") {
-            alert("Introduce Datos Correctos")
-        }else{
-            alert("dataCorrect")
+            new Swal({
+				title: "No puedes dejar un campo vacío",
+				icon: "warning",
+				timer: "1200",
+                showConfirmButton: false,
+			});
+        } else if (correoVal != correo) {
+            new Swal({
+				title: "El email no coincide",
+				icon: "error",
+				timer: "1200",
+                showConfirmButton: false,
+			});
+        } else{
+            new Swal({
+				title: "Datos Correctos",
+                text:"A continuacion selecciona la opción: Generar orden.",
+				icon: "success",
+			});
             NuevoCliente({
             nombre:nombre,
             telefono:tel,
@@ -47,7 +69,7 @@ const ModalBase = ({hide}) => {
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Ingresa Tus Datos</h5>
-                        {/* <button class="btn-close" onClick={hide}></button> */}
+                        <button class="btn-close" onClick={hide}></button>
                     </div>
                     <div class="modal-body">
                         <form action="" onSubmit={onSubmit}>
@@ -57,11 +79,16 @@ const ModalBase = ({hide}) => {
                             </div>
                             <div class="mb-3">
                                 <label>Teléfono:</label>
-                                <input type={"number"} name="telefono" id="telefono" value={tel} class="form-control" onChange={onChange} />
+                                <input type={"tel"} placeholder="55-1234-5678" pattern="[0-9]{2}[0-9]{4}[0-9]{4}"  name="telefono" id="telefono" value={tel} class="form-control" onChange={onChange} />
+                              
                             </div>
                             <div class="mb-3">
                                 <label>Email:</label>
                                 <input type={"text"} name="correo" id="correo" value={correo} class="form-control" onChange={onChange} />
+                            </div>
+                            <div class="mb-3">
+                                <label>Email:</label>
+                                <input type={"text"} placeholder="Introduce de nuevo tu correo" name="correoVal" id="correoVal" value={correoVal} class="form-control" onChange={onChange} />
                             </div>
                             
                         <div class="modal-footer">

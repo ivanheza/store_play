@@ -5,8 +5,9 @@ import Loader from '../Stateless/Loader'
 import CategoryItems from './CategoryItems'
 
 const Category = () => {
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(false)
     const { categoria } = useParams()
+    //console.log(categoria)
     const [productosCatego, setProductosCatego] = useState([]);
     //console.log(productosCatego)
 
@@ -29,7 +30,7 @@ const Category = () => {
 
     useEffect(() => {
         getProducts();
-    }, []);
+    }, [categoria]);
     return (
         <div className="container mt-4 mb-3">
             <div className="row g-3">

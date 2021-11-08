@@ -8,7 +8,7 @@ const ItemList = ({ producto }) => {
   return (
   <div className="col">
       <div className="card h-100 rounded-3 shadow-sm">
-        <img src={image} class="card-img-top" alt="..." />
+        <Link to={`/detalle/${id}`} ><img src={image} class="card-img-top" alt="..." /></Link>
         <div className="card-body">
           <div className="clearfix mb-3">
             <span class="float-start badge rounded-pill bg-transparent">{categoria}</span>

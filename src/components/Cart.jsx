@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCartContext } from '../context/cartContext'
 import { AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { getFirestore } from '../services/getFireBase';
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import ModalBase from './Stateless/ModalBase';
+import CheckOut from './Checkout/CheckOut';
 
 
 const Cart = () => {
@@ -14,12 +15,13 @@ const Cart = () => {
     
     const [modal, SetModal] = useState(false)
     const [btn, showBtn] = useState(true)
+    const [orden,setOrden] = useState(null)
+
    //console.log(orden)
 
 
     const ordenCompra = (e) => {
         e.preventDefault()
-
         let order = {}
             order.date= firebase.firestore.Timestamp.fromDate(new Date());
             order.cliente= {
@@ -41,7 +43,7 @@ const Cart = () => {
         //genero constante de orden y creamos una nueva coleccion en fire
         const orderQuery = dbQuery.collection("orders")
         orderQuery.add(order)
-            .then(res => console.log("el Id de tu compra es"+res.id))
+            .then(res => setOrden({idOrden:res.id}))
             .catch(err => console.log("Ooops hubo un error", err))
             .finally(()=>{
                 vaciarCart()
@@ -50,7 +52,7 @@ const Cart = () => {
             })
             
             
-            /////// Actualizar
+            /////// Actualizar Items de Firebase
             
             const updateProducts = dbQuery.collection("items").where(
                 firebase.firestore.FieldPath.documentId(),"in", cartList.map((p)=>p.id)
@@ -64,27 +66,28 @@ const Cart = () => {
                             stock: docSnap.data().stock - cartList.find( p => p.id === docSnap.id).cantidad
                         })
                     })
-                    batch.commit().then(resCommit => {
-                        console.log(resCommit)
+                    batch.commit()
+                    .then(res => {
+                        //console.log("resultCommit",res)
                     })
                 })
                 
-                console.log(order)
+                
 
     }
-
     ///////Boton     
     const comprar = ()=>{
         //console.log("prueba enboton modal")
         showBtn(false)
         SetModal(true)
     }
-
-
-
     return (
         <div className="container w-75 my-3 shadow-lg ">
-            {cartList.length === 0 ?
+           {orden ? <CheckOut key={orden.idOrden} idOrder={orden.idOrden}/>
+           
+           :
+
+           cartList.length === 0 ?
                 <li className="list-group-product d-flex justify-content-between">
                     <h4 className="fw-light">Tu Carrito está vacío</h4>
                 </li>
@@ -102,7 +105,7 @@ const Cart = () => {
                                             <p className="col-1 my-0 ">#{index + 1}</p>
                                             <img src={p.imagen} className="col-2 img-fluid p-0" width="40" alt="" />
                                             <p className="col-3 my-0">{p.nombre}</p>
-                                            <small className="col-2 text-center">{p.precio}</small>
+                                            <small className="col-2 text-center">$ {p.precio}</small>
                                             <small className="col-1 text-center">Cant:{p.cantidad}</small>
                                             <span className=" col-2 text-end ">$ {p.precio * p.cantidad}</span>
                                             <span className=" col-1 d-flex justify-content-center"><button onClick={() => borrarProduct(p.id)} className="btn btn-danger btn-sm ">X</button></span>
@@ -139,11 +142,11 @@ const Cart = () => {
                     
                 </div>
 
-            }
-
-
-
-
+            
+            
+            
+          
+}
 
         </div>
     )

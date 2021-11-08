@@ -19,13 +19,12 @@ const ItemDetail = ({ detail }) => {
             precio: precio,
             descripcion: descripcion,
             cantidad: contador,
-            categoria: categoria
+            categoria: categoria,
+            stock: stock
         })
     }
     const [loading, setLoading] = useState(true)
-    //console.log(loading)
     useEffect(() => {
-
         return setTimeout(() => {
             setLoading(false)
         }, 800);

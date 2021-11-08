@@ -11,7 +11,7 @@ import CartProvider from './context/cartContext';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/Products/ItemDetailContainer';
 import Category from './components/Products/Category';
-
+import NavCat from './components/Stateless/NavCat';
 
 const App = () => {
   return (
@@ -20,6 +20,7 @@ const App = () => {
       <BrowserRouter>
         <Contenedor>
           <Navbar/>
+          <NavCat/>
             <Switch>
                 <Route exact path="/" component={ItemListContainer} />
                 <Route path="/home"  component={Inicio} />

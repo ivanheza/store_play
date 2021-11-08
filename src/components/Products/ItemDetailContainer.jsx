@@ -4,6 +4,8 @@ import { getFirestore } from "../../services/getFireBase";
 import Loader from "../Stateless/Loader";
 import ItemDetail from "./ItemDetail";
 
+
+
 const ItemDetailContainer = () => {
 	const { id } = useParams();
 	//console.log(id)

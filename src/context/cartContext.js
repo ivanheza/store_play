@@ -25,17 +25,21 @@ function CartProvider({ children }) {
     imagen,
     precio,
     descripcion,
-    cantidad, categoria }) => {
+    cantidad, categoria,stock }) => {
     if (inCart(id)) {
       /////// Se define la variable del producto en carrito copiando el state
+      
       const productsCart = [...cartList]
       const product = cartList.find((i) => i.id === id);
       product.cantidad += cantidad
+      
       //console.log(product.cantidad)
+      //console.log(stock)
       setCartList(productsCart)
     } else {
       setCartList([...cartList,
-      { id, nombre, imagen, categoria, precio, descripcion, cantidad }])
+      { id, nombre, imagen, categoria, precio, descripcion, cantidad, stock }])
+      //console.log(stock)
     }
   };
 
