@@ -1,6 +1,6 @@
 # App eCommerce Play Store para Coder
 
-_App de ecommerce, utilizando una base de datos de firebase._
+_App de ecommerce, utilizando ReactJs y una base de datos desde firebase._
 
 ## Construido con 🛠️
 
