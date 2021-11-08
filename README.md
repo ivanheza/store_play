@@ -2,18 +2,18 @@
 
 _App de ecommerce, utilizando ReactJs y una base de datos desde firebase._
 
-## Construido con 🛠️
+## Librerias 🛠️
 
--  [nodeJS v14.17.6](https://nodejs.dev/)
--  [reactJs v17.0.2](https://es.reactjs.org/) - Reactjs
--  [bootstrap v5.1](https://getbootstrap.com/) -
--  [firebase v8.9.1](https://firebase.google.com/) -
--  [sweetalert2 v11.1](https://sweetalert2.github.io/) -
+- [nodeJS v14.17.6](https://nodejs.dev/)
+- [reactJs v17.0.2](https://es.reactjs.org/) - Reactjs
+- [bootstrap v5.1](https://getbootstrap.com/) -
+- [firebase v8.9.1](https://firebase.google.com/) -
+- [sweetalert2 v11.1](https://sweetalert2.github.io/) - Alerts
 
 ## Autor ✒️
 
--  **Ivan Hernández Preza** -
-   [ivanheza](https://github.com/ivanheza)
+- **Ivan Hernández Preza** -
+  [ivanheza](https://github.com/ivanheza)
 
 ## Thanks
 

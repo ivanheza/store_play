@@ -4,102 +4,120 @@ const CartContext = createContext([]);
 export const useCartContext = () => useContext(CartContext);
 
 function CartProvider({ children }) {
-  const cartStorage =
-    localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+  const cartStorage = localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [];
 
   //console.log(cartStorage)
 
   const [cartList, setCartList] = useState(cartStorage);
- // console.log(cartList)
+  // console.log(cartList)
 
- ///////////CLiente
-  const clienteStorage =
-  localStorage.getItem("cliente") ? JSON.parse(localStorage.getItem("cliente")) : {}
- 
-  const [cliente , SetCliente] = useState(clienteStorage)
+  ///////////CLiente
+  const clienteStorage = localStorage.getItem("cliente")
+    ? JSON.parse(localStorage.getItem("cliente"))
+    : {};
 
+  const [cliente, SetCliente] = useState(clienteStorage);
 
   //Funcion AddToCart
-  const addToCart = ({ id,
+  const addToCart = ({
+    id,
     nombre,
     imagen,
     precio,
     descripcion,
-    cantidad, categoria,stock }) => {
+    cantidad,
+    categoria,
+    stock,
+  }) => {
     if (inCart(id)) {
       /////// Se define la variable del producto en carrito copiando el state
-      
-      const productsCart = [...cartList]
+
+      const productsCart = [...cartList];
       const product = cartList.find((i) => i.id === id);
-      product.cantidad += cantidad
-      
+      product.cantidad += cantidad;
       //console.log(product.cantidad)
       //console.log(stock)
-      setCartList(productsCart)
+      setCartList(productsCart);
     } else {
-      setCartList([...cartList,
-      { id, nombre, imagen, categoria, precio, descripcion, cantidad, stock }])
+      setCartList([
+        ...cartList,
+        { id, nombre, imagen, categoria, precio, descripcion, cantidad, stock },
+      ]);
       //console.log(stock)
     }
   };
 
   //INCART
   const inCart = (id) => {
-    return cartList.some((product) => product.id === id)
-  }
+    return cartList.some((product) => product.id === id);
+  };
   //Cantidad de Producto
   const cantProd = (id) => {
+    let prod = cartList.find((i) => i.id === id);
 
-    let prod = cartList.find((i) => i.id === id)
-
-    return prod.cantidad
-  }
+    return prod.cantidad;
+  };
 
   //Total Productos Carrito
   const cartTotal = () => {
     let qty = cartList.reduce((acc, item) => {
-      return acc + item.cantidad
-    }, 0)
-    return qty
-
-  }
+      return acc + item.cantidad;
+    }, 0);
+    return qty;
+  };
   //Suma precios del carrito
 
-   const cuentaOrden = () => {
-        let cuentaTotal = cartList.reduce((acc, product) => {
-            let sub = product.cantidad * product.precio
-            return acc += sub
-        }, 0)
-        //console.log(cuentaTotal)
-        return cuentaTotal
-    }
+  const cuentaOrden = () => {
+    let cuentaTotal = cartList.reduce((acc, product) => {
+      let sub = product.cantidad * product.precio;
+      return (acc += sub);
+    }, 0);
+    //console.log(cuentaTotal)
+    return cuentaTotal;
+  };
 
   //Borrar Por ID
   const borrarProduct = (id) => {
     //console.log("pruebaBorrar",id)
-    const listaF = cartList.filter((i) => i.id !== id)
-    setCartList(listaF)
-
-  }
+    const listaF = cartList.filter((i) => i.id !== id);
+    setCartList(listaF);
+  };
   //Borrar TODO
   const vaciarCart = () => {
     //console.log("pruebaVaciar")
 
-    setCartList([])
-  }
+    setCartList([]);
+  };
 
   //NuevoCLiente
-  const NuevoCliente =  (cliente)=>{
-   //console.log(cliente)
-   SetCliente(cliente)
-  }
+  const NuevoCliente = (cliente) => {
+    //console.log(cliente)
+    SetCliente(cliente);
+  };
+
+  ////FAVORITOS - WISHLIST
+  const [wish, setWish] = useState([]);
+  //console.log(wish);
+  const wishList = (product) => {
+    if (inWishList(product.producto.id)) {
+      alert("YA EN LISTA");
+    } else setWish([...wish, product]);
+
+    //setWish([...wish, { product: product }]);
+  };
+  //inWhishList
+  const inWishList = (id) => {
+    //console.log(id);
+    return wish.some((product) => product.producto.id === id);
+  };
 
   //LOCAL STORAGE
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartList))
-    localStorage.setItem("cliente", JSON.stringify(cliente))
-  }, [cartList,cliente])
-
+    localStorage.setItem("cart", JSON.stringify(cartList));
+    localStorage.setItem("cliente", JSON.stringify(cliente));
+  }, [cartList, cliente]);
 
   return (
     <CartContext.Provider
@@ -113,7 +131,10 @@ function CartProvider({ children }) {
         cartTotal,
         cuentaOrden,
         NuevoCliente,
-        cliente
+        cliente,
+        wishList,
+        inWishList,
+        wish,
       }}
     >
       {children}
