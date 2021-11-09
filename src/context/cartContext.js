@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CartContext = createContext([]);
 export const useCartContext = () => useContext(CartContext);
@@ -102,7 +104,11 @@ function CartProvider({ children }) {
   //console.log(wish);
   const wishList = (product) => {
     if (inWishList(product.producto.id)) {
-      alert("YA EN LISTA");
+      new Swal({
+        icon: "info",
+        title: `${product.producto.nombre}, ya esta en tu Wishlist`,
+        showConfirmButton: true,
+      });
     } else setWish([...wish, product]);
 
     //setWish([...wish, { product: product }]);

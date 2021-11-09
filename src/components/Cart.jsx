@@ -159,7 +159,7 @@ const Cart = () => {
                   </button>
                 )}
                 {btn ? (
-                  <button className="btn btn-primary" onClick={() => comprar()}>
+                  <button className="btn btn-primary" onClick={comprar}>
                     Continuar Compra
                   </button>
                 ) : (
@@ -168,7 +168,7 @@ const Cart = () => {
               </li>
             </ul>
           </div>
-          {modal === true ? <ModalBase hide={() => SetModal()} /> : ""}
+          {modal === true ? <ModalBase hide={SetModal} /> : ""}
         </div>
       )}
     </div>

@@ -33,7 +33,7 @@ const ModalBase = ({ hide }) => {
         timer: "1200",
         showConfirmButton: false,
       });
-    } else if (correoVal != correo) {
+    } else if (correoVal !== correo) {
       new Swal({
         title: "El email no coincide",
         icon: "error",
