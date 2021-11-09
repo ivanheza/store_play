@@ -26,7 +26,7 @@ const ItemDetailContainer = () => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  });
   return (
     <div>
       {loader ? (
