@@ -86,7 +86,7 @@ const ModalBase = ({hide}) => {
                         <label>Teléfono:</label>
                         <input
                            type={"tel"}
-                           placeholder="55-1234-5678"
+                           placeholder="Agrega los 10 digitos de tu teléfono 5501234567"
                            pattern="[0-9]{2}[0-9]{4}[0-9]{4}"
                            name="telefono"
                            id="telefono"
